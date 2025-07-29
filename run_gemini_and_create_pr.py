@@ -9,8 +9,10 @@ def run_gemini_cli(prompt):
     """Runs the Gemini CLI with the given prompt."""
     try:
         print(f"Running Gemini CLI with prompt: {prompt}")
-        # Replace 'gemini' with the actual command if it's different
-        subprocess.run(['gemini', '--yolo'], input=prompt.encode(), check=True)
+        # Run gemini in an interactive bash shell to recognize aliases.
+        command = f"bash -ic 'gemini --yolo'"
+        print(f"Running command: {command}")
+        subprocess.run(command, shell=True, input=prompt.encode(), check=True)
         print("Gemini CLI executed successfully.")
     except FileNotFoundError:
         print("Error: 'gemini' command not found. Make sure the Gemini CLI is installed and in your PATH.")
