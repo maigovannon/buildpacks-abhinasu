@@ -401,3 +401,24 @@ func isExactGoSemver(constraint string) bool {
 	_, err := semver.NewVersion(constraint)
 	return err == nil
 }
+
+// GoVersionSupportsGoGetInGOPATH returns true if the Go version supports `go get` in GOPATH mode.
+// This feature was removed in Go 1.22.
+func GoVersionSupportsGoGetInGOPATH(ctx *gcp.Context) (bool, error) {
+	v, err := GoVersion(ctx)
+	if err != nil {
+		return false, err
+	}
+
+	version, err := semver.NewVersion(v)
+	if err != nil {
+		return false, gcp.InternalErrorf("unable to parse Go version string %q: %s", v, err)
+	}
+
+	constraint, err := semver.NewConstraint("<1.22.0")
+	if err != nil {
+		return false, gcp.InternalErrorf("unable to parse version range \"<1.22.0\": %s", err)
+	}
+
+	return constraint.Check(version), nil
+}

@@ -37,6 +37,15 @@ func detectFn(ctx *gcp.Context) (gcp.DetectResult, error) {
 	if goModExists {
 		return gcp.OptOut("go.mod found"), nil
 	}
+
+	supported, err := golang.GoVersionSupportsGoGetInGOPATH(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("checking go version support for gopath: %w", err)
+	}
+	if !supported {
+		return gcp.OptOut("gopath builds are not supported in Go 1.22+"), nil
+	}
+
 	return gcp.OptIn("go.mod file not found, assuming GOPATH build"), nil
 }
 
