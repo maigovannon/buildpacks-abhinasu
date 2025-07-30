@@ -18,11 +18,14 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/GoogleCloudPlatform/buildpacks/pkg/buildererror"
 	"github.com/GoogleCloudPlatform/buildpacks/pkg/cache"
 	gcp "github.com/GoogleCloudPlatform/buildpacks/pkg/gcpbuildpack"
+	"github.com/GoogleCloudPlatform/buildpacks/pkg/ruby"
+	"github.com/Masterminds/semver"
 	"github.com/buildpacks/libcnb/v2"
 )
 
@@ -95,6 +98,10 @@ func buildFn(ctx *gcp.Context) error {
 	deps, err := ctx.Layer(layerName, gcp.BuildLayer, gcp.CacheLayer, gcp.LaunchLayer)
 	if err != nil {
 		return fmt.Errorf("creating %v layer: %w", layerName, err)
+	}
+
+	if err := installBundledGems(ctx); err != nil {
+		return fmt.Errorf("installing bundled gems: %w", err)
 	}
 
 	// This layer directory contains the files installed by bundler into the application .bundle directory
@@ -207,4 +214,29 @@ func checkCache(ctx *gcp.Context, l *libcnb.Layer, opts ...cache.Option) (bool, 
 	ctx.SetMetadata(l, rubyVersionKey, currentRubyVersion)
 
 	return false, nil
+}
+
+func installBundledGems(ctx *gcp.Context) error {
+	rubyVersion, err := semver.NewVersion(os.Getenv(ruby.RubyVersionKey))
+	if err != nil {
+		return err
+	}
+	ruby34Version, _ := semver.NewVersion("3.4.0")
+
+	if rubyVersion.GreaterThan(ruby34Version) || rubyVersion.Equal(ruby34Version) {
+		ctx.Logf("Ruby version %s >= 3.4.0, installing bundled gems.", rubyVersion.String())
+		bundledGems := []string{
+			"bigdecimal", "cgi", "csv", "drb", "fcntl", "fileutils", "find", "ftools", "getoptlong",
+			"io-console", "io-nonblock", "io-wait", "irb", "logger", "mutex_m", "net-ftp", "net-http",
+			"net-imap", "net-pop", "net-protocol", "open-uri", "optparse", "pp", "prettyprint", "rdoc",
+			"readline", "reline", "resolv", "rinda", "securerandom", "set", "tempfile", "time",
+			"tmpdir", "tracer", "un", "uri", "weakref", "win32ole", "yaml",
+		}
+		for _, gem := range bundledGems {
+			if _, err := ctx.Exec([]string{"gem", "install", gem}, gcp.WithUserAttribution); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
