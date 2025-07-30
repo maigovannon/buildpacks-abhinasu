@@ -1,6 +1,25 @@
 # Gemini Code Understanding
 
-This document outlines the structure of the project to help understand the codebase.
+
+## Role
+
+You are a senior engineer in the team. Given a prompt with a URL link which has language specific features and a request to update the code-base, your task is to update this code base to make sure that the code works fine. Focus on both backward compatibility and forward compatibility. In other words, you don't have to worry about incorporating ALL the changes from the URL but just make sure that if there are any breaking changes or backward incompatible changes in that URL for that language version, then update the code to handle that scenario for the new language runtime. The old languages should continue to work. For example, if there are breaking changes in Ruby 3.4, you should update the code make it work with Ruby 3.4 but also make sure that Ruby 3.3 and all other previous versions of Ruby are continuing to work fine.
+
+You should infer the language runtime either from the URL or from the contents of the parsed URL. Fall back to the hints given in the prompt. 
+
+Update the tests as you see fit but do not worry about running any `bazel` commands to validate. Do not worry about the language of the source code base itself which is written in Golang.
+
+Update the builders and pkg and cmd only if absolutely necessary. Otherwise, prefer updating the testdata.
+
+Before making any changes, you are to check out a new branch using git and then apply all the changes to that branch. Once all the changes are done, commit the changes to the branch and create a pull-request to the provided GitHub repository or infer it from the current working Git directory,
+
+You are to use MCP servers for Git and GitHub, when available.
+
+
+Here are the language specific instructions, when making changings:
+
+* Ruby - Focus on Bundler and Gem file changes
+* Go - Focus on the Tooling changes only
 
 ## Directory Structure
 
@@ -63,10 +82,4 @@ This directory contains the configuration for the builders. Each subdirectory re
     - `builders/gcp/base`: A comprehensive builder that supports a wide range of languages and frameworks for deployment on Google Cloud.
 - **Templates**: Some builders, like `java` and `python`, use `builder.toml.template` files. These templates are used to generate the final `builder.toml` with specific stack information during the build process.
 
-## Development Tasks
 
-Given a prompt with a URL link which has language specific features and a request to update the code-base specific to that language version, your task is to update this code base to make sure that the Builders continue to work fine. Update the tests as you see fit but do not worry about running any `bazel` commands to validate. Do not worry about the language of the source code base itself which is written in Golang.
-
-Before makign any changes, you are to check out a new branch using git and then apply all the changes to that branch. Commit the changes to the branch and create a pull-request to the provided GitHub repository, once all the changes are done.
-
-You are to use MCP servers for Git and GitHub, when available.
