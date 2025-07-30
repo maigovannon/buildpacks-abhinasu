@@ -1,35 +1,122 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    cloud_events (0.7.0)
-    functions_framework (1.1.0)
+    abbrev (0.1.2)
+    base64 (0.3.0)
+    bigdecimal (3.2.2)
+    cloud_events (0.7.1)
+    csv (3.3.5)
+    drb (2.2.3)
+    forwardable (1.3.3)
+    functions_framework (1.6.2)
       cloud_events (>= 0.7.0, < 2.a)
-      puma (>= 4.3.0, < 6.a)
-      rack (~> 2.1)
-    google-protobuf (3.15.5-universal-darwin)
-    google-protobuf (3.15.5-x86_64-linux)
-    googleapis-common-protos-types (1.0.6)
-      google-protobuf (~> 3.14)
-    grpc (1.36.0-universal-darwin)
-      google-protobuf (~> 3.14)
+      puma (>= 4.3.0, < 7.a)
+      rack (>= 2.1, < 4.a)
+    getoptlong (0.2.1)
+    google-protobuf (4.31.1)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.31.1-aarch64-linux-gnu)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.31.1-aarch64-linux-musl)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.31.1-arm64-darwin)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.31.1-x86-linux-gnu)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.31.1-x86-linux-musl)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.31.1-x86_64-darwin)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.31.1-x86_64-linux-gnu)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.31.1-x86_64-linux-musl)
+      bigdecimal
+      rake (>= 13)
+    googleapis-common-protos-types (1.20.0)
+      google-protobuf (>= 3.18, < 5.a)
+    grpc (1.74.0)
+      google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.36.0-x86_64-linux)
-      google-protobuf (~> 3.14)
+    grpc (1.74.0-aarch64-linux-gnu)
+      google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    nio4r (2.5.8)
-    puma (5.6.2)
+    grpc (1.74.0-aarch64-linux-musl)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.74.0-arm64-darwin)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.74.0-x86-linux-gnu)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.74.0-x86-linux-musl)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.74.0-x86_64-darwin)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.74.0-x86_64-linux-gnu)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.74.0-x86_64-linux-musl)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    ipaddr (1.2.7)
+    logger (1.7.0)
+    mutex_m (0.3.0)
+    nio4r (2.7.4)
+    nkf (0.2.0)
+    observer (0.1.2)
+    puma (6.6.0)
       nio4r (~> 2.0)
-    rack (2.2.3)
-    webrick (1.7.0)
+    rack (3.1.16)
+    rake (13.3.0)
+    resolv (0.6.2)
+    resolv-replace (0.1.1)
+      resolv
+    rinda (0.2.0)
+      drb
+      forwardable
+      ipaddr
+    syslog (0.3.0)
+      logger
+    webrick (1.9.1)
 
 PLATFORMS
-  x86_64-darwin-19
-  x86_64-linux
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm64-darwin
+  ruby
+  x86-linux-gnu
+  x86-linux-musl
+  x86_64-darwin
+  x86_64-linux-gnu
+  x86_64-linux-musl
 
 DEPENDENCIES
+  abbrev
+  base64
+  bigdecimal
+  csv
+  drb
   functions_framework (~> 1.1)
+  getoptlong
   grpc (~> 1.36)
+  mutex_m
+  nkf
+  observer
+  resolv-replace
+  rinda
+  syslog
   webrick (~> 1.7)
 
 BUNDLED WITH
-   2.3.5
+   2.6.9
