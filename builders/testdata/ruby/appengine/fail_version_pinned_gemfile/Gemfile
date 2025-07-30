@@ -19,7 +19,7 @@ gem "base64"
 gem "bigdecimal"
 gem "csv"
 gem "drb"
-gem "English"
+
 gem "fileutils"
 gem "find"
 gem "getoptlong"
