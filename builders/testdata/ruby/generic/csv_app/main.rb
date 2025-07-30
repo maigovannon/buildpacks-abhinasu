@@ -1,4 +1,4 @@
-# Copyright 2020 Google LLC
+# Copyright 2025 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require "sinatra"
+require "csv"
 
 configure do
   set :port, ENV['PORT']
@@ -22,32 +23,8 @@ configure do
 end
 
 get "/" do
-  "PASS"
-end
-
-get "/bundler" do
-  Bundler::VERSION
-end
-
-get '/env' do
-  want = params['want']
-  return "FAIL: ?want must not be empty" unless want
-
-  got = ENV['FOO']
-  return "FAIL: $FOO must not be empty" unless got
-  return "FAIL: $FOO=#{got}, want #{want}" unless got.start_with?(want)
-
-  "PASS"
-end
-
-get '/version' do
-  want = params['want']
-  return "FAIL: ?want must not be empty" unless want
-
-  if RUBY_VERSION != want
-    return "FAIL: RUBY_VERSION=#{RUBY_VERSION}, want #{want}"
+  CSV.generate do |csv|
+    csv << ["row", "of", "CSV", "data"]
   end
-
   "PASS"
 end
-
